@@ -5,21 +5,62 @@ import (
 	// "fmt"
 	// // // "io/ioutil"
 	// // "math/rand"
+
 	"time"
+
 	// // // "net/http"
 	// "encoding/json"
 	// "hydro/client/conn"
-	"hydro/client/mqtt"
+	// "hydro/client/mqtt"
 	// "hydro/client/conn"
 	"hydro/client/clean"
-
+	"hydro/client/mqtt"
 )
 
 func main() {
 
+	// topics := []string{"tmp", "humid"}
+	// var subs []po.Sub
 
+	// for _, v := range topics {
+	// 	tmp := po.Sub{"192.168.0.101", 1883, v, "init", 0}
+	// 	subs = append(subs, tmp)
 
-	go mqtt.SendTable()
+	// }
+
+	// sings := []*po.Sing{
+	// 	{"humid", "val"},
+	// 	{"tmp", "val"},
+	// 	{"humid", "val"},
+	// 	{"tmp", "val"},
+	// 	{"humid", "val"},
+	// 	{"tmp", "val"},
+	// }
+
+	// sub_obj := po.Sub{
+	// 	"192.168.0.101",
+	// 	1883,
+	// 	sings,
+	// 	0,
+	// }
+
+	// sub_obj.Activate()
+
+	// mqtt.SendLive()
+
+	// go subs[0].Activate()
+
+	// go func() {
+	// 	subs[0].Activate()
+	// }()
+
+	// for true {
+
+	// }
+
+	// fmt.Println("\n\nFINISHED\n" + subs[1].Payload)
+
+	// go mqtt.SendTable()
 	go mqtt.SendLive()
 	CleanUp()
 
@@ -41,7 +82,7 @@ func main() {
 	// }
 
 	// conn.UpdateData("live_temp", "ij81m47voyokipj", b_temp)
-	
+
 }
 
 func CleanUp() {
