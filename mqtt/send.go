@@ -18,12 +18,12 @@ type Data struct {
 func SendLive() {
 
 	sings := []*po.Sing{
-		{"humid", 0},
-		{"tmp", 0},
-		{"humid", 0},
-		{"tmp", 0},
-		{"humid", 0},
-		{"tmp", 0},
+		{"s1/humid", 0},
+		{"s1/tmpf", 0},
+		{"s2/humid", 0},
+		{"s2/tmpf", 0},
+		{"s3/humid", 0},
+		{"s3/tmpf", 0},
 	}
 
 	sub_obj := po.Sub{"192.168.0.101", 1883, sings, 0}

@@ -15,6 +15,8 @@ import (
 	// "hydro/client/conn"
 	"hydro/client/clean"
 	"hydro/client/mqtt"
+
+	"github.com/go-co-op/gocron"
 )
 
 func main() {
@@ -62,7 +64,14 @@ func main() {
 
 	// go mqtt.SendTable()
 	go mqtt.SendLive()
-	CleanUp()
+
+	s := gocron.NewScheduler(time.UTC)
+
+	s.Every(1).Day().At("05:00").Do(func() {
+		CleanUp()
+	})
+
+	s.StartBlocking()
 
 	// _, items := conn.GetAllData("temp")
 
@@ -87,9 +96,7 @@ func main() {
 
 func CleanUp() {
 
-	for true {
-		clean.CreateModule("humid")
-		clean.CreateModule("temp")
-		time.Sleep(86400 * time.Second)
-	}
+	clean.CreateModule("humid")
+	clean.CreateModule("temp")
+	time.Sleep(86400 * time.Second)
 }
