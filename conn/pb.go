@@ -1,35 +1,35 @@
 package conn
 
-import(
+import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
 	"strconv"
 )
 
 type ResponseData struct {
-	Page int 
-	PerPage int 
-	TotalItems int 
-	TotalPages int 
-	Items []Item
+	Page       int
+	PerPage    int
+	TotalItems int
+	TotalPages int
+	Items      []Item
 }
 
 type Item struct {
-	CollectionID string
+	CollectionID   string
 	CollectionName string
-	Created string
-	ID string
-	One float64
-	Two float64
-	Three float64
-	Updated string
+	Created        string
+	ID             string
+	One            float64
+	Two            float64
+	Three          float64
+	Updated        string
 }
 
 func PostData(collID string, jsonData []byte) error {
-	httpposturl := fmt.Sprintf("http://45.79.208.204:8080/api/collections/%s/records", collID)
+	httpposturl := fmt.Sprintf("https://vmihydro.com/api/collections/%s/records", collID)
 
 	request, error := http.NewRequest("POST", httpposturl, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
@@ -37,7 +37,7 @@ func PostData(collID string, jsonData []byte) error {
 	client := &http.Client{}
 	response, error := client.Do(request)
 	if error != nil {
-		return error	
+		return error
 	}
 	defer response.Body.Close()
 
@@ -47,7 +47,7 @@ func PostData(collID string, jsonData []byte) error {
 }
 
 func GetData(collID string, pageNum string) (error, ResponseData) {
-	requestURL := fmt.Sprintf("http://45.79.208.204:8080/api/collections/%s/records?page=%s", collID, pageNum)
+	requestURL := fmt.Sprintf("https://vmihydro.com/api/collections/%s/records?page=%s", collID, pageNum)
 	res, err := http.Get(requestURL)
 
 	var jsonData ResponseData
@@ -63,7 +63,7 @@ func GetData(collID string, pageNum string) (error, ResponseData) {
 		fmt.Printf("client: could not read response body: %s\n", err)
 		return err, jsonData
 	}
-	
+
 	err = json.Unmarshal([]byte(resBody), &jsonData)
 
 	if err != nil {
@@ -74,7 +74,7 @@ func GetData(collID string, pageNum string) (error, ResponseData) {
 	return nil, jsonData
 }
 
-func GetAllData(collID string) (error, []Item ) {
+func GetAllData(collID string) (error, []Item) {
 	var items []Item
 
 	returnLength := 30
@@ -98,7 +98,7 @@ func GetAllData(collID string) (error, []Item ) {
 }
 
 func UpdateData(collName string, recordID string, jsonData []byte) error {
-	httpposturl := fmt.Sprintf("http://45.79.208.204:8080/api/collections/%s/records/%s", collName, recordID)
+	httpposturl := fmt.Sprintf("https://vmihydro.com/api/collections/%s/records/%s", collName, recordID)
 
 	request, error := http.NewRequest("PATCH", httpposturl, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
@@ -106,7 +106,7 @@ func UpdateData(collName string, recordID string, jsonData []byte) error {
 	client := &http.Client{}
 	response, error := client.Do(request)
 	if error != nil {
-		return error	
+		return error
 	}
 	defer response.Body.Close()
 
@@ -123,26 +123,25 @@ type Todo struct {
 }
 
 func DeleteData(collName string, recordID string) error {
-	deleteurl := fmt.Sprintf("http://45.79.208.204:8080/api/collections/%s/records/%s", collName, recordID)
+	deleteurl := fmt.Sprintf("https://vmihydro.com/api/collections/%s/records/%s", collName, recordID)
 
-    todo := Todo{1, 2, "lorem ipsum dolor sit amet", true}
-    jsonReq, err := json.Marshal(todo)
-    req, err := http.NewRequest(http.MethodDelete, deleteurl, bytes.NewBuffer(jsonReq))
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return err
-    }
+	todo := Todo{1, 2, "lorem ipsum dolor sit amet", true}
+	jsonReq, err := json.Marshal(todo)
+	req, err := http.NewRequest(http.MethodDelete, deleteurl, bytes.NewBuffer(jsonReq))
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
 
-    defer resp.Body.Close()
-
+	defer resp.Body.Close()
 
 	return nil
 
 }
 
 func DeleteCollection(collName string) error {
-	
+
 	items_length := 1
 
 	for items_length != 0 {
@@ -161,6 +160,6 @@ func DeleteCollection(collName string) error {
 			}
 		}
 	}
-	
+
 	return nil
 }

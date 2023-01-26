@@ -8,5 +8,4 @@ COPY . .
 
 RUN go build .
 
-# CMD ["client"]
-
+CMD ["client"]
