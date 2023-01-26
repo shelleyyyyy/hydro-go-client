@@ -49,8 +49,8 @@ func SendLive() {
 			return
 		}
 
-		conn.UpdateData("live_temp", "ij81m47voyokipj", b_temp)
-		conn.UpdateData("live_humid", "ihdig8d0pfxz6qa", b_humid)
+		conn.UpdateData("live_temp", "byoxv7f2ummffo3", b_temp)
+		conn.UpdateData("live_humid", "0i9l5h9fesr82co", b_humid)
 		time.Sleep(2 * time.Second)
 		fmt.Println("SENDING")
 	})
